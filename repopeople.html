@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Json</title>
+    <style>
+      .mm {
+        margin-top: 20px;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      img {
+        margin-right: 30px;
+        margin-top: 40px;
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <button type="button" id="b">Load GitHub User</button>
+      <h1 id="h1">GitHub User</h1>
+      <section id="content"></section>
+    </div>
+
+    <script>
+      document.getElementById("b").addEventListener("click", loadFunction);
+      function loadFunction() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://api.github.com/users");
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            var people = JSON.parse(xhr.responseText);
+            console.log(people);
+            var output = "";
+            for (var i = 0; i < 10; i++) {
+              output +=
+                '<div class="mm"><div class = "one"><img height="100" weight="150" src="' +
+                people[i].avatar_url +
+                '"></div><div class= "two">';
+              output += "<h3>ID:- " + people[i].id + "</h3>";
+              output += "<h3>Login:- " + people[i].login + "</h3>";
+              output += "<h3>Repos URL:- " + people[i].repos_url + "</h3>";
+              output += "<h3>Type:- " + people[i].type + "</h3>";
+              output += "</div></div>";
+            }
+            document.getElementById("content").innerHTML = output;
+          }
+        };
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
